@@ -11,7 +11,7 @@ def init_browser():
     # Set Executable Path
     executable_path = {"executable_path": "/Users/hyonis/Downloads/chromedriver"}
     return Browser("chrome", **executable_path, headless=False)
-
+#------------------------
 ### Scrape NASA Mars News!
 #-----------------------
 def scrape():
@@ -112,47 +112,56 @@ def scrape():
     soup = bs(browser.html, 'html.parser')
 
     #obtain high resolution images for each of Mars's hemispheres.
-    hemisphere_image_urls = []
+    hemisphere_img_urls = []
 
-    # results = soup.find("div", class_="collapsible results")
-    # print(results)
-    # hemispheres = soup.find("div", class_="item")
+    hemispheres = soup.find_all("div", class_="description")
     # print(hemispheres)
 
 
     for x in range(4):
         
-        # Retrieve html to know what I'm scraping for
-        browser.links.find_by_partial_text('Hemisphere').click()
-        html = browser.html
-        soup = bs(html, 'html.parser')
         hemisphere_dict = {}
-
-        # Extract the title
-        hemi_title = soup.find('div', class_ = 'cover')
-        hemi_title = hemi_title.h2.text.split(' ')[:-1]
-        hemi_title = " ".join(hemi_title)
-        hemisphere_dict['title'] = hemi_title
-
-        # Extract image url
-        image_url = soup.find('ul').li.a['href']
-        hemisphere_dict['img_url'] = f"{url}{image_url}"
         
-        # Append dict to list
-        hemisphere_image_urls.append(hemisphere_dict)
+        # Retrieve html to know what I'm scraping for
+        html = hemispheres[x].find(class_="itemLink").get("href")
+        print(html)
+        img_url = f'{hemi_url}{html}'
+        print(img_url)
         
-        # Go back to main page 
-        browser.links.find_by_partial_text('Back').click()
+        #visit the img url site
+        browser.visit(img_url)
+        
+        #click img 
+        element = browser.find_by_text('Sample').first
+        print(element)
+        
+        #add it to the dict
+        hemisphere_dict['title'] = browser.find_by_css('h2.title').text
+    
+        
+        hemisphere_dict['img_url'] = element['href']
+        print(hemisphere_dict)
+        
+        hemisphere_img_urls.append(hemisphere_dict)
+        
+        #go back to the main page with all the other imgs
+        browser.back()
 
-    print("Mars Hemispheres Scraping Complete!.....")
+        print("Mars Hemispheres Scraping Complete!.....")
 
 
-    scrape_data = {
-        'news_title': news_title,
-        'articles_teaser': article_teaser,
-        'featured_image_url': featured_image_url,
-        'html_table': html_table,
+        scrape_data = {
+            'news_title': news_title,
+            'articles_teaser': article_teaser,
+            'featured_image_url': featured_image_url,
+            'html_table': html_table,
+            'hemisphere_img_urls': hemisphere_img_urls
 
-    }
+        }
 
-    return scrape_data
+        return scrape_data
+
+ #call the function        
+if __name__ == "__main__":
+    scrape()
+
