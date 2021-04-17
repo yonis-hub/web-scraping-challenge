@@ -145,3 +145,14 @@ def scrape():
         browser.links.find_by_partial_text('Back').click()
 
     print("Mars Hemispheres Scraping Complete!.....")
+
+
+    scrape_data = {
+        'news_title': news_title,
+        'articles_teaser': article_teaser,
+        'featured_image_url': featured_image_url,
+        'html_table': html_table,
+
+    }
+
+    return scrape_data
