@@ -33,9 +33,8 @@ def scrape():
 
     news_title = soup.find('div', class_="content_title").get_text()
     article_teaser = soup.find('div', class_="article_teaser_body").get_text()
-
-    print(news_title)
-    print(article_teaser)
+    # print(article_teaser)
+    # print(news_title)
 
     print("Mars News Scraping Complete!....")
 
@@ -48,11 +47,12 @@ def scrape():
 
     # Retrieve page with the requests module
     browser.visit(jpl_url)
+    time.sleep(1)
 
     # Create BeautifulSoup object; parse with 'html.parser'
     soup = bs(browser.html, 'html.parser')
 
-    print(soup.prettify())
+    # print(soup.prettify())
 
 
     # find the image url for the current Featured Mars Image and assign the url string
@@ -61,7 +61,7 @@ def scrape():
 
     #Make sure to save a complete url string for this image.
     featured_image_url = jpl_url + featured_image
-    featured_image_url
+    # featured_image_url
     
     print("JPL Scraping Complete!.....")
 
@@ -74,6 +74,7 @@ def scrape():
 
     # Retrieve page with the requests module
     browser.visit(facts_url)
+    time.sleep(1)
 
     # use Pandas to scrape the table containing facts about the planet including Diameter, Mass, etc.
     table = pd.read_html(facts_url)
@@ -82,13 +83,13 @@ def scrape():
     #save the data into a df
     df = table[0]
     df = df.drop([0])
-    print(df)
+    # print(df)
 
     #DataFrames as HTML
 
     #Pandas also had a `to_html` method that we can use to generate HTML tables from DataFrames.
     html_table = df.to_html()
-    print(html_table)
+    # print(html_table)
 
     # strip unwanted newlines to clean up the table
     html_table.replace('\n', '')
@@ -128,21 +129,21 @@ def scrape():
         html = hemispheres[x].find(class_="itemLink").get("href")
         print(html)
         img_url = f'{hemi_url}{html}'
-        print(img_url)
+        #print(img_url)
         
         #visit the img url site
         browser.visit(img_url)
         
         #click img 
         element = browser.find_by_text('Sample').first
-        print(element)
+        # print(element)
         
         #add it to the dict
         hemisphere_dict['title'] = browser.find_by_css('h2.title').text
     
         
         hemisphere_dict['img_url'] = element['href']
-        print(hemisphere_dict)
+        # print(hemisphere_dict)
         
         hemisphere_img_urls.append(hemisphere_dict)
         
@@ -162,6 +163,12 @@ def scrape():
             'html_table': html_table,
             'hemisphere_img_urls': hemisphere_img_urls
         }
+        # print(news_title)
+        # print(article_teaser)
+        # print(featured_image_url)
+        # print(html_table)
+        # print(hemisphere_img_urls)
+        # print(hemisphere_dict)
 
         return scraped_mars_data
 
