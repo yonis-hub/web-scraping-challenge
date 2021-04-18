@@ -11,6 +11,7 @@ def init_browser():
     # Set Executable Path
     executable_path = {"executable_path": "/Users/hyonis/Downloads/chromedriver"}
     return Browser("chrome", **executable_path, headless=False)
+
 #------------------------
 ### Scrape NASA Mars News!
 #-----------------------
@@ -38,7 +39,6 @@ def scrape():
 
     print("Mars News Scraping Complete!....")
 
-
 #--------------------------------------------
 ### JPL Mars Space Images - Featured Image
 #-------------------------------------------
@@ -64,6 +64,7 @@ def scrape():
     featured_image_url
     
     print("JPL Scraping Complete!.....")
+
 #--------------------------------------
 ### Mars Facts
 #---------------------------------------
@@ -96,6 +97,7 @@ def scrape():
     df.to_html('table.html')
 
     print("Mars Facts Scraping Complete!.....")
+  
 
 #-----------------------------------------
 ### Mars Hemispheres
@@ -149,17 +151,19 @@ def scrape():
 
         print("Mars Hemispheres Scraping Complete!.....")
 
+        #Quit the browser
+        browser.quit()
 
-        scrape_data = {
-            'news_title': news_title,
+
+    
+        scraped_mars_data = {'news_title': news_title,
             'articles_teaser': article_teaser,
             'featured_image_url': featured_image_url,
             'html_table': html_table,
             'hemisphere_img_urls': hemisphere_img_urls
-
         }
 
-        return scrape_data
+        return scraped_mars_data
 
  #call the function        
 if __name__ == "__main__":
