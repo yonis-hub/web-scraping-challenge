@@ -157,7 +157,7 @@ def scrape():
 
 
     
-        scraped_mars_data = {'news_title': news_title,
+        mars_data = {'news_title': news_title,
             'articles_teaser': article_teaser,
             'featured_image_url': featured_image_url,
             'html_table': html_table,
@@ -170,7 +170,7 @@ def scrape():
         # print(hemisphere_img_urls)
         # print(hemisphere_dict)
 
-        return scraped_mars_data
+        return mars_data
 
  #call the function        
 if __name__ == "__main__":
