@@ -10,7 +10,7 @@ def init_browser():
 
     # Set Executable Path
     executable_path = {"executable_path": "/Users/hyonis/Downloads/chromedriver"}
-    return Browser("chrome", **executable_path, headless=False)
+    return Browser("chrome", **executable_path, headless=True)
 
 #------------------------
 ### Scrape NASA Mars News!
