@@ -77,25 +77,27 @@ def scrape():
     time.sleep(1)
 
     # use Pandas to scrape the table containing facts about the planet including Diameter, Mass, etc.
-    table = pd.read_html(facts_url)
-    #type(table)
+    table = pd.read_html(facts_url)[0]
+    table[1:]
+    
 
-    #save the data into a df
-    df = table[0]
-    df = df.drop([0])
-    # print(df)
+    #lable the columns
+    df = table
+    df.columns = ["Comparison", "Mars", "Earth"]
+    df.set_index("Comparison", inplace=True)
+    facts_df = df.drop("Mars - Earth Comparison")
 
     #DataFrames as HTML
 
     #Pandas also had a `to_html` method that we can use to generate HTML tables from DataFrames.
-    html_table = df.to_html()
+    html_table = facts_df.to_html()
     # print(html_table)
 
     # strip unwanted newlines to clean up the table
     html_table.replace('\n', '')
 
     #save the table directly to a file
-    df.to_html('table.html')
+    facts_df.to_html('table.html')
 
     print("Mars Facts Scraping Complete!.....")
   
