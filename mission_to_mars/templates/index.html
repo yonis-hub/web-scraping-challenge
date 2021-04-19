@@ -17,45 +17,46 @@
             <p><a class="btn btn-primary btn-sm" href="/scrape" role="button">Scrape Mars!</a></p>
         </div>
 
-        <!-- NASA Mars News -->
-        <!-- <div class="container">
-            <div class="row" id="mars-news">
-                <div class="media">
-                    <div class="media-body">
-                        <h4>Latest Mars News</h4>
-                        <h5 style="color: #DC143C">{{mars.news_title}}</h5>
-                        <p style="color: #8B0000">{{mars.news_paragraph}}</p>
-                    </div>
-                </div>
+ <!--- Scrap Mars News --->
+    <div class="container">
+        <h2>Latest Mars News</h2>
+        <h4 style="color:red">{{mars_data.news_title}}</h4>
+        <p>{{mars_data.article_teaser}}</p>
+    </div> 
+
+    <div class="container">
+      <div class='row'>
+        <div class="col-lg-8 col-md-8 col-sm-6 col-xm-12">
+        <h3>Featured Mars Image</h3>
+        <img src="{{mars_data.full_image_url}}" style="max-width:100%; max-height: auto;" alt="mars image">
+        </div>
+
+        <!--- Mars Facts and table --->
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xm-12">
+              <h5 class="card-title">Mars Facts</h5>
+              <table>{{ mars_data.html_table|safe}}</table>
             </div>
-        </div>   -->
+          </div> 
 
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-        
-
-
-
-
-
-
-
+    <!---Mars Hemispheres Imgs-->
+    <h3 style="padding-top:30px; text-align: center;">Mars Hemispheres</h3>
+    <div class='card-deck'>
+      <div class='col-md-12'>
+          <div class="row">
+              {% for item in mars_data.hemisphere_img_urls %}
+              <div class="col-md-6">
+                  <div class="card text-white bg-dark" style="margin: 30px;">
+                      <img class="card-img-top" src="{{item.img_url}}" />
+                      <div class="card-body">
+                          <p class="card-text">{{ item.title }}</p>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+    </div>
+  </div> 
 
 
 <!-- Footer-->
