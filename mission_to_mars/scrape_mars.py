@@ -5,18 +5,16 @@ import requests
 import pandas as pd
 from splinter import Browser
 from bs4 import BeautifulSoup as bs
+from webdriver_manager.chrome import ChromeDriverManager
 
-def init_browser():
 
-    # Set Executable Path
-    executable_path = {"executable_path": "/Users/hyonis/Downloads/chromedriver"}
-    return Browser("chrome", **executable_path, headless=True)
 
 #------------------------
 ### Scrape NASA Mars News!
 #-----------------------
 def scrape():
-    browser = init_browser()
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=True)
 
     # URL of page to be scraped
     news_url = "https://redplanetscience.com/"
@@ -60,7 +58,7 @@ def scrape():
 
 
     #Make sure to save a complete url string for this image.
-    featured_image_url = jpl_url + featured_image
+    featured_image_url = jpl_url +'/'+ featured_image
     # featured_image_url
     
     print("JPL Scraping Complete!.....")
@@ -154,17 +152,16 @@ def scrape():
 
         print("Mars Hemispheres Scraping Complete!.....")
 
-        #Quit the browser
-        browser.quit()
+
 
 
     
-        mars_data = {'news_title': news_title,
-            'articles_teaser': article_teaser,
-            'featured_image_url': featured_image_url,
-            'html_table': html_table,
-            'hemisphere_img_urls': hemisphere_img_urls
-        }
+    mars_data = {'news_title': news_title,
+        'articles_teaser': article_teaser,
+        'featured_image_url': featured_image_url,
+        'html_table': html_table,
+        'hemisphere_img_urls': hemisphere_img_urls
+    }
         # print(news_title)
         # print(article_teaser)
         # print(featured_image_url)
@@ -172,7 +169,10 @@ def scrape():
         # print(hemisphere_img_urls)
         # print(hemisphere_dict)
 
-        return mars_data
+    #Quit the browser
+    browser.quit()
+
+    return mars_data
 
  #call the function        
 if __name__ == "__main__":
